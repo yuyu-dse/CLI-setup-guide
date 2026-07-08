@@ -1,0 +1,15 @@
+.env
+*.key
+*.pem
+*.p12
+*.pfx
+secrets.*
+config.local.*
+*.log
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# VS Code
+.vscode/ 
