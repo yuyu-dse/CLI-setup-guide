@@ -4,14 +4,6 @@ This repository contains setup guides for coding agents used with the company-pr
 
 The goal is to document reproducible installation and configuration procedures across different development environments, with a focus on CLI-based coding agents.
 
-## Supported Environments
-
-| Environment | Coding Agent | Status |
-|---|---|---|
-| WSL / Ubuntu | OpenCode CLI | ✅ Tested and working |
-| Windows Native | Codex | ✅ Tested and working |
-| Windows Native | OpenCode | ⚠️ Installation completed; further troubleshooting may be required |
-
 ## Available Guides
 
 ### WSL / Ubuntu
