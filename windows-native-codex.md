@@ -1,145 +1,179 @@
-# Windows Native Codex
+# Windows Native Codex Setup
 
-This guide explains how to set up and configure Codex natively on Windows.
+This guide explains how to set up Codex natively on Windows using the company-provided Azure OpenAI deployment.
 
-> WSL and Linux setup are outside the scope of this guide. You can simply turn to [WSL Codex](./wsl-codex.md)
+Administrator access is not required for the tested setup.
 
-## 1. Prerequisites
+## Prerequisites
 
-Before starting, make sure you have:
+You need:
 
-- Windows System
-- VS Code
-- Codex extension for VS Code
-- An Azure OpenAI endpoint
-- Model name
-- An API key
+- Windows
+- Visual Studio Code
+- Access to the target Git repository
+- Company-provided Azure OpenAI endpoint
+- Company-provided model name
+- Company-provided API key
 
-The Azure OpenAI endpoint, model name, and API key should be provided by the team. And it should never be leaked by any means.
+> Never commit API keys or include them in documentation or screenshots.
 
-> Never store API keys, passwords, or any other secret information in this repository.
+## 1. Open the Repository in Native Windows
 
-## 2. Install the Codex Extension
+Open the repository in a native Windows VS Code window.
 
-1. Open VS Code.
-2. Open the **Extensions** panel.
-3. Search for **Codex**.
-4. Install the extension.
-5. Open the **Codex** panel.
-
-At this stage, do not enter API key directly into the Codex login screen.
-
-## 3. Create the Codex Configuration File
-
-Open Windows PowerShell and check whether the Codex configuration directory exists:
-
-```powershell
-Test-Path "$HOME\.codex"
-```
-
-If the directory does not exist, create it:
-
-```powershell
-New-Item -ItemType Directory -Path "$HOME\.codex"
-```
-
-Open or create the Codex configuration file:
-
-```powershell
-notepad "$HOME\.codex\config.toml"
-```
-
-The file is located at:
+The path should look like:
 
 ```text
-C:\Users\<username>\.codex\config.toml
+C:\Users\<USERNAME>\projects\<REPOSITORY>
 ```
 
-Add the following configuration:
+Do not use a WSL path such as:
+
+```text
+/home/<USERNAME>/projects/<REPOSITORY>
+```
+
+## 2. Create the Codex Configuration
+
+Create the following file:
+
+```text
+C:\Users\<USERNAME>\.codex\config.toml
+```
+
+Add:
 
 ```toml
-model = "<model-name>"
+model = "<COMPANY_MODEL_NAME>"
 model_provider = "azure"
+model_reasoning_effort = "high"
 
 [model_providers.azure]
 name = "Azure OpenAI"
-base_url = "<azure-openai-base-url>"
+base_url = "<COMPANY_AZURE_OPENAI_BASE_URL>"
 env_key = "AZURE_OPENAI_API_KEY"
 wire_api = "responses"
 ```
 
-Attention:
+Replace the placeholders with the values provided through the approved internal company channel.
 
-- `<model-name>` with the model name provided by the team.
-- `<azure-openai-base-url>` with the Azure OpenAI base URL provided for the setup.
+Do not add the API key to this file.
 
-Save the file.
+## 3. Set the API Key
 
-> Do not store the API key directly in `config.toml`.
-
-## 4. Configure the API Key
-
-The API key should be stored in the `AZURE_OPENAI_API_KEY` environment variable.
-
-To avoid displaying the API key directly in PowerShell, use:
+Open PowerShell and run:
 
 ```powershell
-$secure = Read-Host "Paste API key" -AsSecureString
-$ptr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($secure)
-$env:AZURE_OPENAI_API_KEY = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr)
-[Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ptr)
+[Environment]::SetEnvironmentVariable(
+    "AZURE_OPENAI_API_KEY",
+    "<YOUR_API_KEY>",
+    "User"
+)
 ```
 
-When prompted:
+Replace `<YOUR_API_KEY>` with the real API key.
+
+The final `"User"` is the Windows environment-variable scope. It is not your username.
+
+## 4. Restart VS Code
+
+After setting the environment variable:
+
+1. Close all VS Code windows.
+2. Reopen VS Code.
+3. Open the native Windows repository again.
+
+## 5. Verify the Environment Variable
+
+Open a new PowerShell terminal in VS Code and run:
+
+```powershell
+$env:AZURE_OPENAI_API_KEY
+```
+
+If a value is displayed, the environment variable is available.
+
+Do not include the output in screenshots.
+
+## 6. Start Codex
+
+Open Codex in VS Code.
+
+If Windows setup or administrator access is unavailable, continue without completing the optional administrator-level setup.
+
+The tested configuration works with:
+
+- the Codex configuration file
+- the company Azure OpenAI deployment
+- the user-level `AZURE_OPENAI_API_KEY`
+
+## 7. Test the Setup
+
+Use a read-only prompt first:
 
 ```text
-Paste API key:
+Briefly introduce this repository. Do not modify anything.
 ```
 
-paste the API key provided by the team and press **Enter**.
+Confirm that Codex can:
 
-> This method stores the API key only in the current PowerShell session.
+- access the repository
+- inspect files
+- understand the project structure
+- return a response without modifying files
 
-## 5. Start Visual Studio Code
+## Troubleshooting
 
-Close all open Visual Studio Code windows.
+### Missing environment variable
 
-From the same PowerShell session in which the API key was configured, start Visual Studio Code:
+If Codex reports:
+
+```text
+Missing environment variable: AZURE_OPENAI_API_KEY
+```
+
+verify the saved value:
 
 ```powershell
-code
+[Environment]::GetEnvironmentVariable(
+    "AZURE_OPENAI_API_KEY",
+    "User"
+)
 ```
 
-Starting Visual Studio Code from the same PowerShell session allows it to inherit the `AZURE_OPENAI_API_KEY` environment variable.
+Then completely restart VS Code.
 
-## 6. Open Codex
+### Wrong environment
 
-In Visual Studio Code:
+Make sure VS Code is running in native Windows.
 
-1. Open the **Codex** panel.
-2. Continue with the Windows setup.
-3. Follow the setup instructions shown by Codex.
+The repository path should begin with:
 
-Codex may request permission to install the Windows sandbox.
+```text
+C:\
+```
 
-On company-managed devices, administrator approval may be required.
+and not:
 
-> Status: Pending final verification after administrator approval.
+```text
+/home/
+```
 
-## 7. Verify the Setup
+or:
 
-After the Windows setup is complete, send a simple test prompt in Codex.
+```text
+\\wsl.localhost\
+```
 
-Confirm that:
+## Security
 
-- the Azure endpoint is reachable;
-- the configured model is available;
-- the API key is recognized;
-- Codex can successfully process a request;
-- Codex can operate correctly in the Windows environment.
+- Never commit API keys.
+- Never include API keys in screenshots.
+- Use environment variables for secrets.
+- Use only the approved company Azure OpenAI deployment for company code and data.
 
-> Status: Pending final verification.
+## Result
 
+The Windows Native Codex setup was successfully tested using the company-provided Azure OpenAI deployment.
 
-############# NOT FINISHED 
-# Need authentication from Admin to Proceed
+Administrator access is not required for the tested workflow.
