@@ -44,7 +44,7 @@ Using Homebrew
 brew install anomalyco/tap/opencode
 ```
 
-After installation, restart your seesion & verify that OpenCode is available:
+After installation, restart your session & verify that OpenCode is available:
 
 ```powershell
 source ~/.bashrc
