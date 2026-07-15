@@ -11,7 +11,6 @@ The goal is to document reproducible installation and configuration procedures a
 - [`wsl-opencode.md`](./wsl-opencode.md)
 
   Installation and configuration of OpenCode CLI inside WSL / Ubuntu.
-
 - [`wsl-codex.md`](./wsl-codex.md)
 
   Installation and configuration notes for Codex in  WSL / Ubuntu.
@@ -21,7 +20,6 @@ The goal is to document reproducible installation and configuration procedures a
 - [`windows-native-codex.md`](./windows-native-codex.md)
 
   Installation and configuration of Codex in native Windows.
-
 - [`windows-native-opencode.md`](./windows-native-opencode.md)
 
   Installation and configuration notes for OpenCode in native Windows.
@@ -44,10 +42,8 @@ Do not store secrets directly in this repository.
 
 - Never commit API keys to Git.
 - Never add API keys directly to documentation.
-- Never include API keys in screenshots.
 - Store secrets using environment variables or another approved secret-management method.
 - Use only the company-provided Azure OpenAI deployment for company code and company data.
-- Review `git diff` before committing changes.
 
 ## Repository Structure
 
@@ -57,5 +53,5 @@ Do not store secrets directly in this repository.
 ├── wsl-codex.md
 ├── wsl-opencode.md
 ├── windows-native-codex.md
-└── windows-native-opencode.md 
-
+└── windows-native-opencode.md
+```
