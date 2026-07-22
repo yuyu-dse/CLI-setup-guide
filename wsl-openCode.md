@@ -135,7 +135,7 @@ Confirm that:
 
 ## 6. Connect OpenCode to Azure
 
-Inside OpenCode, with the your model selected, run:
+Inside OpenCode, with deployed model selected, run:
 
 ```text
 /connect
