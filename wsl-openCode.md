@@ -152,7 +152,7 @@ OpenCode stores provider credentials outside the project repository.
 > Do not paste the API key into any Markdown file, project config file, or committed script.
 
 
-## 8. Generic OpenCode Provider Setup
+## 7. Generic OpenCode Provider Setup
 
 If you are not using Azure, the general OpenCode setup flow is:
 
@@ -185,7 +185,7 @@ After connecting the provider, select a model:
 
 The exact credentials and environment variables depend on the selected provider.
 
-## 9. Initialize OpenCode in a Project
+## 8. Initialize OpenCode in a Project
 
 Navigate to the project folder:
 
@@ -211,7 +211,7 @@ The `AGENTS.md` file can be committed if it only contains project guidance and d
 
 Note: The global configurations reside in `%USERPROFILE%\.config\opencode\opencode.json` and project-level configurations reside in the project root.
 
-## 10. Verify the Setup
+## 9. Verify the Setup
 
 After setup is complete, send a simple test prompt in OpenCode:
 
@@ -228,7 +228,7 @@ Confirm that:
 - OpenCode can read project files when permitted;
 - no secrets were added to the repository.
 
-## 11. Troubleshooting
+## 10. Troubleshooting
 
 ### `opencode` command not found
 
