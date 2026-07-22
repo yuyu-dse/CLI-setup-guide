@@ -84,57 +84,40 @@ Important:
 - Confirm that the deployed model is available to your Azure OpenAI resource.
 - Do not copy API keys or endpoint screenshots into this repository.
 
-## 4. Connect OpenCode to Azure
+## 4. Set up conifg file
 
-Open PowerShell and start OpenCode:
+Open the config file in nano editor (or any editor of your choice)
 
 ```powershell
-opencode
+nano ~/.config/opencode/opencode.jsonc
 ```
 
-Inside OpenCode, run:
+Replace with new config, filling in your own model name & endpoint: 
 
 ```text
-/connect
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "[Model name]",
+  "theme": "opencode",
+  "autoupdate": true,
+  "provider": {
+    "azure": {
+      "options": {
+        "baseURL": "[Azure OpenAI endpoint]"
+      },
+      "models": {
+        "[Model Name]": {
+          "name": "[Model name]"
+        }
+      }
+    }
+  }
+}
 ```
 
-Then:
+Save it.
 
-1. Search for **Azure**.
-2. Select the Azure OpenAI provider.
-3. Paste the Azure OpenAI API key when prompted.
-
-OpenCode stores provider credentials outside the project repository.
-
-> Do not paste the API key into any Markdown file, project config file, or committed script.
-
-## 5. Configure the Azure Resource Name
-
-OpenCode also needs the Azure OpenAI resource name.
-
-In the same PowerShell session where you will run OpenCode, set:
-
-```powershell
-$env:AZURE_RESOURCE_NAME = "<azure-resource-name>"
-```
-
-Replace `<azure-resource-name>` with the resource name from the Azure OpenAI endpoint.
-
-For example:
-
-```powershell
-$env:AZURE_RESOURCE_NAME = "my-ai-resource"
-```
-
-Then start OpenCode from the same PowerShell session:
-
-```powershell
-opencode
-```
-
-Starting OpenCode from the same session allows it to read the `AZURE_RESOURCE_NAME` environment variable.
-
-## 6. Select the Azure Model
+## 5. Select the Azure Model
 
 Inside OpenCode, run:
 
@@ -150,25 +133,24 @@ Confirm that:
 - the deployed model appears in the model list;
 - the selected model name matches the Azure AI Foundry deployment name.
 
-## 7. Optional Persistent Azure Resource Name
+## 6. Connect OpenCode to Azure
 
-The previous environment variable only applies to the current PowerShell session.
+Inside OpenCode, with the your model selected, run:
 
-If you want the Azure resource name to persist across new PowerShell sessions, run:
-
-```powershell
-[Environment]::SetEnvironmentVariable("AZURE_RESOURCE_NAME", "<azure-resource-name>", "User")
+```text
+/connect
 ```
 
-Then close and reopen PowerShell.
+Then:
 
-To confirm the value is available in a new PowerShell session, run:
+1. Search for **Azure**.
+2. Select the Azure OpenAI provider.
+3. Paste the Azure OpenAI API key when prompted.
 
-```powershell
-$env:AZURE_RESOURCE_NAME
-```
+OpenCode stores provider credentials outside the project repository.
 
-> Do not persist API keys this way unless the team has approved that approach.
+> Do not paste the API key into any Markdown file, project config file, or committed script.
+
 
 ## 8. Generic OpenCode Provider Setup
 
